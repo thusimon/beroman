@@ -1,4 +1,4 @@
-from service import Service
+from server.service import Service
 from datetime import date
 
 today = date.today()
