@@ -5,4 +5,4 @@ today = date.today()
 
 service = Service()
 
-service.add_pd_data(today.year, today.month)
+service.add_pd(today.year, today.month)

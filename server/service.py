@@ -7,7 +7,7 @@ class Service(object):
   def __init__(self) -> None:
       self.db = connect_db()
 
-  def add_pd_data(self, year, month):
+  def add_pd(self, year, month):
     data_from_web = parse_employ_page(year, month)
     month_padded = str(month).rjust(2, '0')
     if data_from_web and len(data_from_web) > 0:
@@ -24,3 +24,10 @@ class Service(object):
       print('updated {} rows for {}-{} successfully in test db'.format(len(inserted), year, month))
     else:
       print('no data for {}-{}'.format(year, month))
+
+  def pd_field(self, row):
+    return {'nt': row['nt'], 'cny': row['cny'], 'cat': row['cat'], 'pd': row['pd']}
+
+  def get_all_pd(self):
+    cursor = self.db[collection_name].find({})
+    return list(map(self.pd_field, cursor))
