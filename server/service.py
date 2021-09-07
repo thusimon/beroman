@@ -10,6 +10,9 @@ class Service(object):
   def add_pd(self, year, month):
     data_from_web = parse_employ_page(year, month)
     month_padded = str(month).rjust(2, '0')
+    #always delete test database records
+    deleted = self.db['pd_test'].delete_many({})
+    print('{} rows deleted'.format(deleted.deleted_count))
     if data_from_web and len(data_from_web) > 0:
       # delete the data of the same notice time in db
       deleted = self.db[collection_name].delete_many({'nt': '{}-{}-01'.format(year, month_padded)})
@@ -18,8 +21,6 @@ class Service(object):
       print('updated {} rows for {}-{} successfully in real db'.format(len(inserted), year, month))
 
       # update the test database
-      deleted = self.db['pd_test'].delete_many({})
-      print('{} rows deleted'.format(deleted.deleted_count))
       inserted = self.db['pd_test'].insert_many(data_from_web).inserted_ids
       print('updated {} rows for {}-{} successfully in test db'.format(len(inserted), year, month))
     else:
