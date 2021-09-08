@@ -1,12 +1,21 @@
-import React from 'react';
-import './App.css';
-import Main from './components/main';
+import React, {useReducer} from 'react';
+import {Context, initState} from './contexts/context';
+import {Reducer} from './contexts/reducer';
 
+import Main from './components/main';
+import './App.scss';
 function App() {
+  const [state, dispatch] = useReducer(Reducer, initState);
+
   return (
-    <div className="App">
-       <Main />
-    </div>
+    <Context.Provider value={{
+      state,
+      dispatch
+    }}>
+      <div className="App">
+        <Main />
+      </div>
+    </Context.Provider>
   );
 }
 
