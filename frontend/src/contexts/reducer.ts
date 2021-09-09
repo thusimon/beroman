@@ -5,7 +5,7 @@ export const Reducer = (state: InitStateType, action: Action) => {
     case ActionType.SET_ALL_PD: {
       return {
         ...state,
-        pds: action.data
+        ...action.data
       };
     }
     default:

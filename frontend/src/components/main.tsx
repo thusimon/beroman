@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import {Context} from '../contexts/context';
 import {ActionType} from '../types';
+import {initPDFilters} from '../utils/data-utils';
 import Loading from './loading';
+import PDView from './pd-view';
 import axios from 'axios';
 
 const Main = () => {
@@ -14,7 +16,10 @@ const Main = () => {
       if (resp.status === 200 && resp.data) {
         dispatch({
           type: ActionType.SET_ALL_PD,
-          data: resp.data
+          data: {
+            pds: resp.data,
+            ...initPDFilters(resp.data)
+          }
         });
       }
     }
@@ -22,7 +27,7 @@ const Main = () => {
   }, [dispatch]);
 
   return (<div>
-    { state.pds === null ? <Loading /> : <div>Hello</div>}
+    { state.pds === null ? <Loading /> : <PDView />}
   </div>);
 }
 
