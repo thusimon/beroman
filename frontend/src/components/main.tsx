@@ -16,10 +16,7 @@ const Main = () => {
       if (resp.status === 200 && resp.data) {
         dispatch({
           type: ActionType.SET_ALL_PD,
-          data: {
-            pds: resp.data,
-            ...initPDFilters(resp.data)
-          }
+          data: {...initPDFilters(resp.data)}
         });
       }
     }

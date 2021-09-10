@@ -5,6 +5,12 @@ export type PDType = {
   pd: string
 };
 
+export type PDTypeConvert = {
+  nt: number,
+  cny: string,
+  cat: string,
+  pd: string
+}
 export type PDFilter = {
   ntRange: number[],
   cnys: string[],
@@ -24,7 +30,11 @@ export type InitStateType = {
 };
 
 export enum ActionType {
-  SET_ALL_PD
+  SET_ALL_PD,
+  SET_FILTER_START_NOTICE_DATE,
+  SET_FILTER_END_NOTICE_DATE,
+  SET_FILTER_COUNTRY,
+  SET_FILTER_CATEGORY
 };
 
 export type Action = {
