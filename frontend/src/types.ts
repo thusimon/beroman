@@ -6,25 +6,32 @@ export type PDType = {
 };
 
 export type PDTypeConvert = {
-  nt: number,
+  nt: Date,
   cny: string,
   cat: string,
   pd: string
 }
 export type PDFilter = {
-  ntRange: number[],
+  ntRange: Date[],
   cnys: string[],
   cats: string[]
 }
 
 export type PDCurrentFilter = {
-  ntRange: number[],
+  ntRange: Date[],
   cny: string,
   cat: string
 }
 
+export type ChartData = {
+  val: number,
+  note: string,
+  nt: Date,
+  pd: Date
+}
+
 export type InitStateType = {
-  pds: PDType[] | null,
+  pds: PDTypeConvert[] | null,
   pdFilter: PDFilter,
   pdCurFilter: PDCurrentFilter
 };
