@@ -1,4 +1,4 @@
-import {PDType, PDTypeConvert, PDFilter, PDCurrentFilter, ChartData} from '../types'
+import {PDType, PDTypeConvert, PDFilter, PDCurrentFilter} from '../types'
 
 export const initPDFilters = (pds: PDType[]): {pds: PDTypeConvert[], pdFilter: PDFilter, pdCurFilter: PDCurrentFilter} => {
   const pdFilter: PDFilter = {

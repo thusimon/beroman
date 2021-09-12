@@ -8,9 +8,9 @@ export const getDateString = (d: Date) => {
   ].join('-');
 }
 
-const timeInDay = 24 * 3600 * 1000;
-const timeInMonth = 30 * timeInDay;
-const timeInYear = 12 * timeInMonth;
+export const timeInDay = 24 * 3600 * 1000;
+export const timeInMonth = 30 * timeInDay;
+export const timeInYear = 12 * timeInMonth;
 
 export const timespanToString = (d: number, verbose: boolean): string => {
   const day = verbose ? ' Day ' : 'D';

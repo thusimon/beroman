@@ -1,7 +1,7 @@
 import React, {useContext, useRef, useEffect} from 'react';
 import {Context} from '../contexts/context';
 import {filterPD} from '../utils/data-utils';
-import {timespanToString, getDateString, getChartText} from '../utils/date-utils';
+import {getChartText, timeInDay} from '../utils/date-utils';
 import {ChartData} from '../types';
 import * as d3 from 'd3';
 
@@ -123,7 +123,7 @@ const PDChart = () => {
 
     // Add Y grid lines with labels
     const yAxis = d3.axisLeft(yScale)
-    .tickFormat(d => timespanToString(d.valueOf(), false))
+    .tickFormat(d => Math.floor(d.valueOf() / timeInDay) + '')
 
     const yAxisGroup = svg.append('g').call(yAxis)
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
@@ -156,7 +156,7 @@ const PDChart = () => {
     .attr('text-anchor', 'left')
     .attr('alignment-baseline', 'middle')
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       focusText.append('tspan')
       .attr('class', 'sub-text')
       .attr('x', margin.left + 20)
@@ -172,6 +172,14 @@ const PDChart = () => {
     .attr('x', 150)
     .attr('y', 60)
     .text(`From the latest data, ${latestText[1]}`)
+
+    const yAxisLabel = svg
+    .append('g')
+    .append('text')
+    .style('fill', 'white')
+    .style('font-size', '1em')
+    .attr('transform', `translate(25, ${svgHeight / 2}) rotate(-90)`)
+    .text('Waiting days');
     
     
   }, [svgRef, state.pdCurFilter, state.pds, state.pdFilter])

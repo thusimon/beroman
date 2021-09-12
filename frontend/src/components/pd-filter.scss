@@ -1,10 +1,40 @@
 .filter-container {
   margin: 1rem;
   font-weight: 500;
+  display: flex;
+  align-items: center;
   .filter-control {
     display: inline-block;
+    margin: 0.5rem;
   }
   label {
-    margin: 0px 0.2rem 0px 1rem 
+    margin: 0px 0.2rem 0px 0.5rem 
+  }
+  .settings {
+    cursor: pointer;
+    background-color: dimgray;
+    svg {
+      animation-name: spin;
+      animation-duration: 10s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-fill-mode: forwards;
+      animation-play-state: paused
+    }
+  }
+
+  .settings:hover {
+    svg {
+      animation-play-state: running
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }

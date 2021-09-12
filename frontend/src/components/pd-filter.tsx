@@ -1,13 +1,30 @@
-import React, {useContext}  from 'react';
+import React, {useContext, useState}  from 'react';
 import {Context} from '../contexts/context';
 import {getDateString} from '../utils/date-utils';
 import {ActionType} from '../types';
+import PDSettingModal from './pd-setting-modal';
 import './pd-filter.scss';
+import { ReactComponent as SettingSVG } from '../assets/settings.svg';
 
 const PDFilter = () => {
   const {state, dispatch} = useContext(Context);
+  const [showSetting, setShowSetting] = useState(false);
+
   const [startDate, endDate] = state.pdFilter.ntRange;
   const {cnys, cats} = state.pdFilter;
+
+  const [curStartDate, curEndDate] = state.pdCurFilter.ntRange;
+  const {cny, cat} = state.pdCurFilter;
+
+  const {controls} = state;
+
+  const handleSettings = () => {
+    dispatch({
+      type: ActionType.CONTROL_SETTING_SHOW,
+      data: ''
+    });
+  }
+  console.log(controls)
   return <div className='filter-container'>
     <div className='filter-control'>
       <label htmlFor='date-from'>From:</label>
@@ -49,6 +66,10 @@ const PDFilter = () => {
         {cats.map(cat => <option value={cat} key={`pd-category-${cat}`}>{cat}</option>)}
       </select>
     </div>
+    <button className='filter-control settings' onClick={handleSettings}>
+      <SettingSVG />
+    </button>
+    { controls.setting ? <PDSettingModal /> : <></>}
   </div>
 }
 

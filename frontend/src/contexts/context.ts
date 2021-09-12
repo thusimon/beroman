@@ -12,6 +12,9 @@ export const initState: InitStateType = {
     ntRange: [],
     cny: '',
     cat: ''
+  },
+  controls: {
+    setting: false
   }
 };
 

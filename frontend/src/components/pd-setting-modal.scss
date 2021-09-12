@@ -1,0 +1,24 @@
+.filter-setting-container {
+  background-color: mintcream;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.7;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+}
+
+.filter-setting-modal {
+  opacity: 1;
+  width: 50vw;
+  height: 30vh;
+  opacity: 1;
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  background-color: #282c34;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px grey;
+}

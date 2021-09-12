@@ -33,7 +33,10 @@ export type ChartData = {
 export type InitStateType = {
   pds: PDTypeConvert[] | null,
   pdFilter: PDFilter,
-  pdCurFilter: PDCurrentFilter
+  pdCurFilter: PDCurrentFilter,
+  controls: {
+    setting: boolean
+  }
 };
 
 export enum ActionType {
@@ -41,7 +44,9 @@ export enum ActionType {
   SET_FILTER_START_NOTICE_DATE,
   SET_FILTER_END_NOTICE_DATE,
   SET_FILTER_COUNTRY,
-  SET_FILTER_CATEGORY
+  SET_FILTER_CATEGORY,
+  CONTROL_SETTING_SHOW,
+  CONTROL_SETTING_HIDE
 };
 
 export type Action = {

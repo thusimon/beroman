@@ -60,6 +60,20 @@ export const Reducer = (state: InitStateType, action: Action) => {
         }
       };
     }
+    case ActionType.CONTROL_SETTING_SHOW: {
+      const stateUpdate = {
+        ...state
+      }
+      stateUpdate.controls.setting = true;
+      return stateUpdate;
+    }
+    case ActionType.CONTROL_SETTING_HIDE: {
+      const stateUpdate = {
+        ...state
+      }
+      stateUpdate.controls.setting = false;
+      return stateUpdate;
+    }
     default:
       return state;
   }
