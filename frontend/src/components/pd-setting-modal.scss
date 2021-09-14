@@ -21,4 +21,20 @@
   background-color: #282c34;
   border-radius: 5px;
   box-shadow: 5px 5px 5px grey;
+
+  .filter-setting-modal-close {
+    text-align: right;
+    padding: 8px;
+    svg {
+      cursor: pointer;
+    }
+  }
+
+  .filter-setting-modal-main {
+    .filter-setting-modal-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 25px;
+    }
+  }
 }

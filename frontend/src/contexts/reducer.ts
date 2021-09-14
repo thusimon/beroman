@@ -1,4 +1,4 @@
-import {ActionType, InitStateType, Action} from '../types';
+import {ActionType, InitStateType, Action, SWMessageType} from '../types';
 
 export const Reducer = (state: InitStateType, action: Action) => {
   switch (action.type) {
@@ -72,6 +72,14 @@ export const Reducer = (state: InitStateType, action: Action) => {
         ...state
       }
       stateUpdate.controls.setting = false;
+      return stateUpdate;
+    }
+    case ActionType.SET_MY_PD: {
+      const stateUpdate = {
+        ...state
+      };
+      stateUpdate.mypd = action.data;
+      navigator.serviceWorker.controller?.postMessage({type: SWMessageType.SET_DB_MY_PD, data: action.data});
       return stateUpdate;
     }
     default:

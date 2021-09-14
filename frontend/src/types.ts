@@ -36,7 +36,8 @@ export type InitStateType = {
   pdCurFilter: PDCurrentFilter,
   controls: {
     setting: boolean
-  }
+  },
+  mypd: number
 };
 
 export enum ActionType {
@@ -46,10 +47,17 @@ export enum ActionType {
   SET_FILTER_COUNTRY,
   SET_FILTER_CATEGORY,
   CONTROL_SETTING_SHOW,
-  CONTROL_SETTING_HIDE
+  CONTROL_SETTING_HIDE,
+  SET_MY_PD
 };
 
 export type Action = {
   type: ActionType;
   data: any;
 };
+
+export enum SWMessageType {
+  PAGE_LOADS,
+  SEND_PAGE_INIT_DATA,
+  SET_DB_MY_PD
+}

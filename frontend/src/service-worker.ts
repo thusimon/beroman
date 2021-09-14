@@ -13,6 +13,8 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
+import {SWMessageType} from './types'
+import {connectDB, DB, KEYS} from './db/db-helper';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -57,10 +59,15 @@ registerRoute(
 // precache, in this case same-origin .png requests like those from in public/
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
-  ({ url }) => url.origin === self.location.origin && url.pathname.endsWith('.png'),
+  ({ url }) => {
+    const path = url.pathname;	
+    return url.origin === self.location.origin &&	
+      (path.endsWith('.png') || path.endsWith('.ico') || path.endsWith('manifest.json'));
+  },
+
   // Customize this strategy as needed, e.g., by changing to CacheFirst.
   new StaleWhileRevalidate({
-    cacheName: 'images',
+    cacheName: 'static-miscs',
     plugins: [
       // Ensure that once this runtime cache reaches a maximum size the
       // least-recently used images are removed.
@@ -71,10 +78,52 @@ registerRoute(
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
+self.addEventListener('message', async (event) => {
+  if (event.data) {	
+    const {type, data} = event.data;
+    switch (type) {
+      case 'SKIP_WAITING': {
+        self.skipWaiting();
+        return;
+      }
+      case SWMessageType.PAGE_LOADS: {	
+        await connectDB(1);	
+        const mypd = await DB.get(KEYS.mypd) || -1;	
+        const data = {	
+          mypd
+        }	
+        self.clients.matchAll().then(clis => {	
+          clis.forEach(c => {	
+            c.postMessage({type: SWMessageType.SEND_PAGE_INIT_DATA, data})	
+          });	
+        });	
+        break;	
+      }	
+      case SWMessageType.SET_DB_MY_PD: {	
+        await DB.set(KEYS.mypd, data)	
+        break;	
+      }	
+      default:	
+        break;	
+    }	
   }
 });
 
-// Any other custom service worker logic can go here.
+self.addEventListener('install', (event) => {	
+  console.log('service worker installed, skip waiting');	
+  self.skipWaiting();	
+});
+
+self.addEventListener('activate', async (event) => {	
+  console.log('service worker activated');	
+  await connectDB(1);	
+  const mypd = await DB.get(KEYS.mypd) || 0;	
+  const data = {	
+    mypd
+  }	
+  self.clients.matchAll().then(clis => {	
+    clis.forEach(c => {	
+      c.postMessage({type: SWMessageType.SEND_PAGE_INIT_DATA, data})	
+    });	
+  });	
+});

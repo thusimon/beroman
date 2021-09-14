@@ -15,7 +15,8 @@ export const initState: InitStateType = {
   },
   controls: {
     setting: false
-  }
+  },
+  mypd: 0
 };
 
 export const Context = createContext<{
