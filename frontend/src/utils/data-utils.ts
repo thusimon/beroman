@@ -2,12 +2,14 @@ import {PDType, PDTypeConvert, PDFilter, PDCurrentFilter} from '../types'
 
 export const initPDFilters = (pds: PDType[]): {pds: PDTypeConvert[], pdFilter: PDFilter, pdCurFilter: PDCurrentFilter} => {
   const pdFilter: PDFilter = {
-    ntRange: [],
+    ntStart: new Date(),
+    ntEnd: new Date(),
     cnys: [],
     cats: []
   }
   const pdCurFilter: PDCurrentFilter = {
-    ntRange: [],
+    curNtStart: new Date(),
+    curNtEnd: new Date(),
     cny: '',
     cat: ''
   }
@@ -20,19 +22,21 @@ export const initPDFilters = (pds: PDType[]): {pds: PDTypeConvert[], pdFilter: P
   }));
   // sort pds
   pdsConvert.sort((pd1, pd2) => pd1.nt.getTime() - pd2.nt.getTime());
-  pdFilter.ntRange = [pdsConvert[0].nt, pdsConvert[pdsConvert.length - 1].nt];
+  pdFilter.ntStart = pdsConvert[0].nt;
+  pdFilter.ntEnd =  pdsConvert[pdsConvert.length - 1].nt
   pdFilter.cnys = Array.from(new Set(pds.map(pd => pd.cny)));
   pdFilter.cats = Array.from(new Set(pds.map(pd => pd.cat)));
 
-  pdCurFilter.ntRange = [pdsConvert[0].nt, pdsConvert[pdsConvert.length - 1].nt];
+  pdCurFilter.curNtStart = pdsConvert[0].nt;
+  pdCurFilter.curNtEnd = pdsConvert[pdsConvert.length - 1].nt;
   pdCurFilter.cny = pdFilter.cnys[0];
   pdCurFilter.cat = pdFilter.cats[0];
   return { pds:pdsConvert, pdFilter, pdCurFilter };
 }
 
 export const filterPD = (pds: PDTypeConvert[], filter: PDCurrentFilter): PDTypeConvert[] => {
-  const {ntRange, cny, cat} = filter
-  return pds.filter(pd => pd.nt <= ntRange[1] && pd.nt >= ntRange[0] && pd.cny === cny && pd.cat === cat)
+  const {curNtStart, curNtEnd, cny, cat} = filter
+  return pds.filter(pd => pd.nt <= curNtEnd && pd.nt >= curNtStart && pd.cny === cny && pd.cat === cat)
 }
 
 export const paddingPD = (pds: PDTypeConvert[]): PDTypeConvert[] => {

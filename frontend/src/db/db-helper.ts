@@ -9,7 +9,11 @@ export enum DB_NAME {
 }
 
 export enum KEYS {
-  mypd = 'mypd'
+  mypd = 'mypd',
+  filterStartND = 'filterStartND',
+  filterEndND = 'filterEndND',
+  filterCNY = 'filterCNY',
+  filterCAT = 'filterCAT'
 }
 
 interface PDDB extends DBSchema {

@@ -27,13 +27,9 @@ const PDChart = () => {
     current.style.backgroundColor = 'slategrey';
     const chartWidth = svgWidth - margin.left - margin.right;
     const chartHeight = svgHeight - margin.top - margin.bottom;
-
     const filteredPD = filterPD(state.pds, state.pdCurFilter);
-    
-    console.log(filteredPD, state.pdCurFilter);
-    
     const xScale = d3.scaleTime()
-    .domain(state.pdCurFilter.ntRange)
+    .domain([state.pdCurFilter.curNtStart, state.pdCurFilter.curNtEnd])
     .range([0, chartWidth])
 
     const data: ChartData[] = filteredPD.map(pd => {

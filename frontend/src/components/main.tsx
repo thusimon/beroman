@@ -14,9 +14,11 @@ const Main = () => {
     const getAllPD = async () => {
       const resp = await axios.get('/api/all_pd');
       if (resp.status === 200 && resp.data) {
-        return {...initPDFilters(resp.data)};
+        return initPDFilters(resp.data);
       } else {
-        return {};
+        return {
+          pdCurFilter: null
+        };
       }
     }
 
@@ -28,11 +30,18 @@ const Main = () => {
         case SWMessageType.SEND_PAGE_INIT_DATA:{
           const dataFromRequest = await getAllPD();
           const dataFromSW = event.data.data;
+          const pdCurFilter = {
+            ...dataFromRequest.pdCurFilter,
+            ...dataFromSW.pdCurFilter
+          }
           dispatch({
             type: ActionType.SET_ALL_PD,
             data: {
               ...dataFromRequest,
-              ...dataFromSW
+              ...{
+                mypd: dataFromSW.mypd,
+                pdCurFilter
+              }
             }
           });
           break;

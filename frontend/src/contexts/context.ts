@@ -4,12 +4,14 @@ import {InitStateType, Action} from '../types';
 export const initState: InitStateType = {
   pds: null,
   pdFilter: {
-    ntRange: [],
+    ntStart: new Date(),
+    ntEnd: new Date(),
     cnys: [],
     cats: []
   },
   pdCurFilter: {
-    ntRange: [],
+    curNtStart: new Date(),
+    curNtEnd: new Date(),
     cny: '',
     cat: ''
   },

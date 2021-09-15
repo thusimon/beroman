@@ -12,13 +12,15 @@ export type PDTypeConvert = {
   pd: string
 }
 export type PDFilter = {
-  ntRange: Date[],
+  ntStart: Date,
+  ntEnd: Date,
   cnys: string[],
   cats: string[]
 }
 
 export type PDCurrentFilter = {
-  ntRange: Date[],
+  curNtStart: Date,
+  curNtEnd: Date,
   cny: string,
   cat: string
 }
@@ -59,5 +61,9 @@ export type Action = {
 export enum SWMessageType {
   PAGE_LOADS,
   SEND_PAGE_INIT_DATA,
-  SET_DB_MY_PD
+  SET_DB_MY_PD,
+  SET_DB_FILTER_START_NOTICE_DATE,
+  SET_DB_FILTER_END_NOTICE_DATE,
+  SET_DB_FILTER_COUNTRY,
+  SET_DB_FILTER_CATEGORY
 }
