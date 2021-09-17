@@ -13,10 +13,15 @@ export const timeInMonth = 30 * timeInDay;
 export const timeInYear = 12 * timeInMonth;
 
 export const timespanToString = (d: number, verbose: boolean): string => {
-  const day = verbose ? ' Day ' : 'D';
-  const month = verbose ? ' Month ' : 'M';
-  const year = verbose ? ' Year ': 'Y';
-  if (d < timeInMonth) {
+  const day = verbose ? ' Day ' : ' D ';
+  const month = verbose ? ' Month ' : ' M ';
+  const year = verbose ? ' Year ': ' Y ';
+  if (isNaN(d)) {
+    return 'N/A';
+  } else if (d <= 0) {
+    return '🎉 Current!'
+  }
+  else if (d < timeInMonth) {
     return `${Math.floor(d/timeInDay)}${day}`;
   } else if (d < timeInYear) {
     const monthsInTime = Math.floor(d/timeInMonth);
@@ -29,24 +34,19 @@ export const timespanToString = (d: number, verbose: boolean): string => {
   }
 }
 
-export const getChartText = (data: ChartData, mypd: number) => {
+export const getChartPointText = (data: ChartData, mypd: number) => {
   if (!data) {
-    return ['N/A','N/A','N/A'];
+    return ['N/A','N/A'];
   }
   const checkDate = getDateString(data.nt);
   let pd = ''
-  let message = '';
   if (data.note === 'C') {
     pd = 'Priority Date: Current';
-    message = 'No need to wait';
   } else if (data.note === 'U') {
     pd = 'Priority Date: Unavailable';
-    message = 'Unavaliable, please wait...'
   } else {
     pd = `Priority Date: ${getDateString(data.pd)}`;
-
-    message = `please wait: ${timespanToString(mypd - data.pd.getTime(), true)}`
   }
-  return [checkDate, pd, message];
+  return [checkDate, pd];
 }
 

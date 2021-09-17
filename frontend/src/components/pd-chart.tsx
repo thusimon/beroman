@@ -1,7 +1,7 @@
 import React, {useContext, useRef, useEffect} from 'react';
 import {Context} from '../contexts/context';
 import {filterPD} from '../utils/data-utils';
-import {getChartText, timeInDay, getDateString} from '../utils/date-utils';
+import {getChartPointText, timeInDay, getDateString, timespanToString} from '../utils/date-utils';
 import {ChartData} from '../types';
 import * as d3 from 'd3';
 
@@ -86,15 +86,11 @@ const PDChart = () => {
       .attr('cx', xScale(selectedData.nt) + margin.left)
       .attr('cy', yScale(selectedData.val) + margin.top)
 
-      const texts = getChartText(selectedData, 0);
-      //focusText
-      //.attr('x', xScale(selectedData.nt) + margin.left - 20)
-      //.attr('y', yScale(selectedData.val) + margin.top - 60);
+      const texts = getChartPointText(selectedData, 0);
 
       focusText.selectAll('.sub-text')
       .data(texts)
       .text(d => d)
-      //.attr('x', xScale(selectedData.nt) + margin.left - 20)
 
     })
     .on('mouseout', () => {
@@ -149,7 +145,7 @@ const PDChart = () => {
     .style('opacity', 0)
     .style('fill', 'white')
     .attr('x', margin.left + 20)
-    .attr('y', margin.top + 20)
+    .attr('y', margin.top + 40)
     .attr('text-anchor', 'left')
     .attr('alignment-baseline', 'middle')
 
@@ -160,20 +156,30 @@ const PDChart = () => {
       .attr('dy', '1em');
     }
 
-    let captionText = ''
-    if (mypd) {
-      const mypdText = getDateString(new Date(mypd))
-      const waitText = getChartText(data.slice(-1)[0], mypd)[2];
-      captionText = `Your PD: ${mypdText}, ${waitText}`; 
-    }
     const caption = svg
     .append('g')
     .append('text')
     .style('fill', 'white')
     .style('font-size', '2em')
     .attr('x', 20)
-    .attr('y', 40)
-    .text(captionText)
+    .attr('y', 4)
+
+    for (let i = 0; i < 2; i++) {
+      caption.append('tspan')
+      .attr('class', 'sub-text')
+      .attr('x', margin.left + 20)
+      .attr('dy', '1em');
+    }
+
+    if (mypd) {
+      const captionTextData = [
+        `📅: ${getDateString(new Date(mypd))}`,
+        `⌛: ${timespanToString(mypd - data.slice(-1)[0].pd.getTime(), false)}`
+      ]
+      caption.selectAll('.sub-text')
+      .data(captionTextData)
+      .text(d => d)
+    }
 
     const yAxisLabel = svg
     .append('g')
