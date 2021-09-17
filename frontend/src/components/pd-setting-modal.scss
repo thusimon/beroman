@@ -38,3 +38,15 @@
     }
   }
 }
+
+@media only screen and (max-width: 1024px) {
+  .filter-setting-modal {
+    width: 100vw;
+    left: 0%;
+    .filter-setting-modal-main {
+      .filter-setting-modal-row {
+        display: block;
+      }
+    }
+  }
+}

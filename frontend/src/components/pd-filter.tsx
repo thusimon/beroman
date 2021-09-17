@@ -70,9 +70,11 @@ const PDFilter = () => {
         {cats.map(c => <option value={c} key={`pd-category-${c}`} selected={c == cat}>{c}</option>)}
       </select>
     </div>
-    <button className='filter-control settings' onClick={handleSettings}>
-      <SettingSVG />
-    </button>
+    <div className='filter-control'>
+      <button className='settings' onClick={handleSettings}>
+        <SettingSVG />
+      </button>
+    </div>
     { controls.setting ? <PDSettingModal /> : <></>}
   </div>
 }
