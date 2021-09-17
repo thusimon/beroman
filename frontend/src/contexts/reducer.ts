@@ -9,7 +9,6 @@ export const Reducer = (state: InitStateType, action: Action) => {
       };
     }
     case ActionType.SET_FILTER_START_NOTICE_DATE: {
-      navigator.serviceWorker.controller?.postMessage({type: SWMessageType.SET_DB_FILTER_START_NOTICE_DATE, data: action.data});
       return {
         ...state,
         ...{
@@ -23,7 +22,6 @@ export const Reducer = (state: InitStateType, action: Action) => {
       };
     }
     case ActionType.SET_FILTER_END_NOTICE_DATE: {
-      navigator.serviceWorker.controller?.postMessage({type: SWMessageType.SET_DB_FILTER_END_NOTICE_DATE, data: action.data});
       return {
         ...state,
         ...{

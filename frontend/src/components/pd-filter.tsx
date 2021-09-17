@@ -28,18 +28,24 @@ const PDFilter = () => {
       <label htmlFor='date-from'>From:</label>
       <input type='date' id='date-from' defaultValue={getDateString(new Date(curNtStart))}
         min={getDateString(new Date(ntStart))} max={getDateString(new Date(ntEnd))}
-        onChange={evt => dispatch({
-          type: ActionType.SET_FILTER_START_NOTICE_DATE,
-          data: new Date(`${evt.target.value}T00:00:00`).getTime()
-        })}
+        onChange={evt => {
+          const updatedDate = new Date(`${evt.target.value}T00:00:00`).getTime();
+          dispatch({
+            type: ActionType.SET_FILTER_START_NOTICE_DATE,
+            data: updatedDate
+          });
+        }}
       ></input>
       <label htmlFor='date-to'>To:</label>
       <input type='date' id='date-to' defaultValue={getDateString(new Date(curNtEnd))}
         min={getDateString(new Date(ntStart))} max={getDateString(new Date(ntEnd))}
-        onChange={evt => dispatch({
-          type: ActionType.SET_FILTER_END_NOTICE_DATE,
-          data: new Date(`${evt.target.value}T00:00:00`).getTime()
-        })}
+        onChange={evt => {
+          const updatedDate = new Date(`${evt.target.value}T00:00:00`).getTime();
+          dispatch({
+            type: ActionType.SET_FILTER_END_NOTICE_DATE,
+            data: updatedDate
+          })
+        }}
       ></input>
     </div>
     <div className='filter-control'>

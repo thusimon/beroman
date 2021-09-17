@@ -10,8 +10,6 @@ export enum DB_NAME {
 
 export enum KEYS {
   mypd = 'mypd',
-  filterStartND = 'filterStartND',
-  filterEndND = 'filterEndND',
   filterCNY = 'filterCNY',
   filterCAT = 'filterCAT'
 }

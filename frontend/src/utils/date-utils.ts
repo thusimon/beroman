@@ -29,7 +29,10 @@ export const timespanToString = (d: number, verbose: boolean): string => {
   }
 }
 
-export const getChartText = (data: ChartData) => {
+export const getChartText = (data: ChartData, mypd: number) => {
+  if (!data) {
+    return ['N/A','N/A','N/A'];
+  }
   const checkDate = getDateString(data.nt);
   let pd = ''
   let message = '';
@@ -38,10 +41,11 @@ export const getChartText = (data: ChartData) => {
     message = 'No need to wait';
   } else if (data.note === 'U') {
     pd = 'Priority Date: Unavailable';
-    message = 'Please wait...'
+    message = 'Unavaliable, please wait...'
   } else {
     pd = `Priority Date: ${getDateString(data.pd)}`;
-    message = `You need to wait ${timespanToString(data.val, true)}`
+
+    message = `please wait: ${timespanToString(mypd - data.pd.getTime(), true)}`
   }
   return [checkDate, pd, message];
 }

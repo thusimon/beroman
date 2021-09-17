@@ -88,17 +88,13 @@ self.addEventListener('message', async (event) => {
       }
       case SWMessageType.PAGE_LOADS: {	
         await connectDB(1);
-        const [mypd, curNtStart, curNtEnd, cny, cat] = await Promise.all([
+        const [mypd, cny, cat] = await Promise.all([
           DB.get(KEYS.mypd),
-          DB.get(KEYS.filterStartND),
-          DB.get(KEYS.filterEndND),
           DB.get(KEYS.filterCNY),
           DB.get(KEYS.filterCAT)
         ]);
         
         const pdCurFilter = Object.assign({},
-          !!curNtStart && {curNtStart},
-          !!curNtEnd && {curNtEnd},
           !!cny && {cny},
           !!cat && {cat}
         );
@@ -116,15 +112,7 @@ self.addEventListener('message', async (event) => {
       case SWMessageType.SET_DB_MY_PD: {	
         await DB.set(KEYS.mypd, data);
         break;	
-      }
-      case SWMessageType.SET_DB_FILTER_START_NOTICE_DATE: {
-        await DB.set(KEYS.filterStartND, data);
-        break;
-      }
-      case SWMessageType.SET_DB_FILTER_END_NOTICE_DATE: {
-        await DB.set(KEYS.filterEndND, data);
-        break;
-      }
+      }    
       case SWMessageType.SET_DB_FILTER_COUNTRY: {
         await DB.set(KEYS.filterCNY, data);
         break;
@@ -147,16 +135,12 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', async (event) => {	
   console.log('service worker activated');	
   await connectDB(1);	
-  const [mypd, curNtStart, curNtEnd, cny, cat] = await Promise.all([
+  const [mypd, cny, cat] = await Promise.all([
     DB.get(KEYS.mypd),
-    DB.get(KEYS.filterStartND),
-    DB.get(KEYS.filterEndND),
     DB.get(KEYS.filterCNY),
     DB.get(KEYS.filterCAT)
   ]);
   const pdCurFilter = Object.assign({},
-    !!curNtStart && {curNtStart},
-    !!curNtEnd && {curNtEnd},
     !!cny && {cny},
     !!cat && {cat}
   );

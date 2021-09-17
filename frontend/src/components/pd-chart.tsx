@@ -1,7 +1,7 @@
 import React, {useContext, useRef, useEffect} from 'react';
 import {Context} from '../contexts/context';
 import {filterPD} from '../utils/data-utils';
-import {getChartText, timeInDay} from '../utils/date-utils';
+import {getChartText, timeInDay, getDateString} from '../utils/date-utils';
 import {ChartData} from '../types';
 import * as d3 from 'd3';
 
@@ -10,14 +10,15 @@ const PDChart = () => {
   const svgRef = useRef(null);
 
   useEffect(() => {
-    if (!svgRef.current || !state.pds) {
+    const {pds, pdCurFilter, mypd}  = state;
+    if (!svgRef.current || !pds) {
       return;
     }
     const current = svgRef.current as HTMLElement
     const svgWidth = window.innerWidth * 0.9;
     const svgHeight = window.innerHeight * 0.8;
     const margin = {
-      top: 100,
+      top: 60,
       right: 10,
       bottom: 30,
       left: 70
@@ -27,9 +28,9 @@ const PDChart = () => {
     current.style.backgroundColor = 'slategrey';
     const chartWidth = svgWidth - margin.left - margin.right;
     const chartHeight = svgHeight - margin.top - margin.bottom;
-    const filteredPD = filterPD(state.pds, state.pdCurFilter);
+    const filteredPD = filterPD(pds, pdCurFilter);
     const xScale = d3.scaleTime()
-    .domain([state.pdCurFilter.curNtStart, state.pdCurFilter.curNtEnd])
+    .domain([pdCurFilter.curNtStart, pdCurFilter.curNtEnd])
     .range([0, chartWidth])
 
     const data: ChartData[] = filteredPD.map(pd => {
@@ -85,7 +86,7 @@ const PDChart = () => {
       .attr('cx', xScale(selectedData.nt) + margin.left)
       .attr('cy', yScale(selectedData.val) + margin.top)
 
-      const texts = getChartText(selectedData);
+      const texts = getChartText(selectedData, 0);
       //focusText
       //.attr('x', xScale(selectedData.nt) + margin.left - 20)
       //.attr('y', yScale(selectedData.val) + margin.top - 60);
@@ -159,15 +160,20 @@ const PDChart = () => {
       .attr('dy', '1em');
     }
 
-    const latestText = getChartText(data.slice(-1)[0]);
-    const captionText = svg
+    let captionText = ''
+    if (mypd) {
+      const mypdText = getDateString(new Date(mypd))
+      const waitText = getChartText(data.slice(-1)[0], mypd)[2];
+      captionText = `Your PD: ${mypdText}, ${waitText}`; 
+    }
+    const caption = svg
     .append('g')
     .append('text')
     .style('fill', 'white')
-    .style('font-size', '3em')
-    .attr('x', 150)
-    .attr('y', 60)
-    .text(`From the latest data, ${latestText[1]}`)
+    .style('font-size', '2em')
+    .attr('x', 20)
+    .attr('y', 40)
+    .text(captionText)
 
     const yAxisLabel = svg
     .append('g')
@@ -176,9 +182,7 @@ const PDChart = () => {
     .style('font-size', '1em')
     .attr('transform', `translate(25, ${svgHeight / 2}) rotate(-90)`)
     .text('Waiting days');
-    
-    
-  }, [svgRef, state.pdCurFilter, state.pds, state.pdFilter])
+  }, [svgRef, state.pdCurFilter, state.pds, state.mypd])
   return <div>
     <svg ref={svgRef} className='svg-container'></svg>
   </div>
