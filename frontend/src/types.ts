@@ -25,6 +25,11 @@ export type PDCurrentFilter = {
   cat: string
 }
 
+export type PDCurrentPartialFilter = {
+  cny: string,
+  cat: string
+}
+
 export type ChartData = {
   val: number,
   note: string,

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import {Context} from '../contexts/context';
 import {ActionType, SWMessageType} from '../types';
-import {initPDFilters} from '../utils/data-utils';
+import {initPDs, filterPDBySW} from '../utils/data-utils';
 import Loading from './loading';
 import PDView from './pd-view';
 import axios from 'axios';
@@ -12,13 +12,12 @@ const Main = () => {
 
   useEffect(() => {
     const getAllPD = async () => {
+      // TODO GraphQL
       const resp = await axios.get('/api/all_pd');
       if (resp.status === 200 && resp.data) {
-        return initPDFilters(resp.data);
+        return initPDs(resp.data);
       } else {
-        return {
-          pdCurFilter: null
-        };
+        return [];
       }
     }
 
@@ -28,20 +27,17 @@ const Main = () => {
       }
       switch (event.data.type) {
         case SWMessageType.SEND_PAGE_INIT_DATA:{
-          const dataFromRequest = await getAllPD();
           const dataFromSW = event.data.data;
-          const pdCurFilter = {
-            ...dataFromRequest.pdCurFilter,
-            ...dataFromSW.pdCurFilter
-          }
+          const pdsFromRequest = await getAllPD();
+
+          const initFilters = filterPDBySW(pdsFromRequest, dataFromSW.pdCurFilter);
+
           dispatch({
             type: ActionType.SET_ALL_PD,
             data: {
-              ...dataFromRequest,
-              ...{
-                mypd: dataFromSW.mypd,
-                pdCurFilter
-              }
+              pds: pdsFromRequest,
+              ...initFilters,
+              mypd: dataFromSW.mypd
             }
           });
           break;

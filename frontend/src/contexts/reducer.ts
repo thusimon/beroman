@@ -1,4 +1,5 @@
-import {ActionType, InitStateType, Action, SWMessageType} from '../types';
+import {ActionType, InitStateType, Action, SWMessageType, PDCurrentPartialFilter} from '../types';
+import {filterPDBySW} from '../utils/data-utils';
 
 export const Reducer = (state: InitStateType, action: Action) => {
   switch (action.type) {
@@ -36,30 +37,24 @@ export const Reducer = (state: InitStateType, action: Action) => {
     }
     case ActionType.SET_FILTER_COUNTRY: {
       navigator.serviceWorker.controller?.postMessage({type: SWMessageType.SET_DB_FILTER_COUNTRY, data: action.data});
+      const newFilters = filterPDBySW(state.pds, {
+        cny: action.data,
+        cat: state.pdCurFilter.cat
+      });
       return {
         ...state,
-        ...{
-          pdCurFilter: {
-            ...state.pdCurFilter,
-            ...{
-              cny: action.data
-            }
-          }
-        }
+        ...newFilters
       };
     }
     case ActionType.SET_FILTER_CATEGORY: {
       navigator.serviceWorker.controller?.postMessage({type: SWMessageType.SET_DB_FILTER_CATEGORY, data: action.data});
+      const newFilters = filterPDBySW(state.pds, {
+        cny: state.pdCurFilter.cny,
+        cat: action.data
+      });
       return {
         ...state,
-        ...{
-          pdCurFilter: {
-            ...state.pdCurFilter,
-            ...{
-              cat: action.data
-            }
-          }
-        }
+        ...newFilters
       };
     }
     case ActionType.CONTROL_SETTING_SHOW: {

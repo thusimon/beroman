@@ -1,4 +1,4 @@
-import React, {useContext, useState}  from 'react';
+import React, {useContext}  from 'react';
 import {Context} from '../contexts/context';
 import {getDateString} from '../utils/date-utils';
 import {ActionType} from '../types';
@@ -8,7 +8,6 @@ import { ReactComponent as SettingSVG } from '../assets/settings.svg';
 
 const PDFilter = () => {
   const {state, dispatch} = useContext(Context);
-  const [showSetting, setShowSetting] = useState(false);
 
   const {ntStart, ntEnd, cnys, cats} = state.pdFilter;
 
