@@ -1,21 +1,59 @@
 .pd-view {
-  /* unvisited link */
-  a:link {
-    color: ivory;
-  }
+  .pd-view-head {
+    position: relative;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+      height: 3rem;
+      width: 3rem;
+      flex-basis: 3rem;
+      flex-grow: 0;
+      flex-shrink: 0;
+      cursor: pointer;
+      color: lightgray;
+      &:hover {
+        color: white;
+      }
+    }
+    /* unvisited link */
+    a:link {
+      color: ivory;
+    }
 
-  /* visited link */
-  a:visited {
-    color: bisque;
-  }
+    /* visited link */
+    a:visited {
+      color: bisque;
+    }
 
-  /* mouse over link */
-  a:hover {
-    color: orange;
-  }
+    /* mouse over link */
+    a:hover {
+      color: orange;
+    }
 
-  /* selected link */
-  a:active {
-    color: mintcream;
+    /* selected link */
+    a:active {
+      color: mintcream;
+    }
+
+    .disclaimer-text {
+      z-index: 1;
+      text-align: left;
+      background-color: maroon;
+      position: absolute;
+      top: 4.2rem;
+      right: 0px;
+      p {
+        margin: 0px;
+        padding: 4px 8px;
+      }
+    }
+
+    @media only screen and (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
   }
 }

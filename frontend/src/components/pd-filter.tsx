@@ -70,7 +70,8 @@ const PDFilter = () => {
       </select>
     </div>
     <div className='filter-control'>
-      <button className='settings' onClick={handleSettings}>
+      <label htmlFor='btn-settings'>Settings: </label>
+      <button id='btn-setting' className='settings' onClick={handleSettings} title='Settings'>
         <SettingSVG />
       </button>
     </div>

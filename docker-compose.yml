@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PYTHONUNBUFFERED: 1
+      FLASK_RUN_HOST: 0.0.0.0
+      FLASK_RUN_PORT: 3004
+    restart: always
+    ports:
+      - 3004:3004

@@ -7,6 +7,11 @@ collection_name = 'greencard_work_pd'
 class Service(object):
   def __init__(self) -> None:
       self.db = connect_db()
+      self.cache = {
+        'time': datetime.datetime(year=datetime.MINYEAR, month=1, day=1),
+        'val': []
+      }
+      print('successfully connected to db')
 
   def add_pd(self, year, month):
     try:
@@ -37,5 +42,16 @@ class Service(object):
     return {'nt': row['nt'], 'cny': row['cny'], 'cat': row['cat'], 'pd': row['pd']}
 
   def get_all_pd(self):
+    # try to get from cache first, the data can be cached for one month
+    now = datetime.datetime.now()
+    cached_time = self.cache.get('time')
+    if now.year == cached_time.year and now.month == cached_time.month:
+      print('request at time {}, have cache at time {}, use cache'.format(now, cached_time))
+      return self.cache.get('val')
+    
+    print('request at time {}, have no cache at time {}, get from db'.format(now, cached_time))
     cursor = self.db[collection_name].find({})
-    return list(map(self.pd_field, cursor))
+    all_pd = list(map(self.pd_field, cursor))
+    self.cache['time'] = now
+    self.cache['val'] = all_pd
+    return all_pd

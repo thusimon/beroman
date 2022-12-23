@@ -8,10 +8,15 @@ beroman monthly scrape the [official site](https://travel.state.gov/content/trav
 ## Installation
 - at root, run `pip3 install -r requirements.txt` to install python packages
 - go to `frontend` directory, run `yarn install` to install npm packages
+- create a `.env` file in the root directory, and put your mongodb service url
+  ```
+  MONGO_URL=<Your mongodb service url>
+  ```
 ## development
-- at root, run `flask run` to start local server
 - go to `frontend` directory, run `yarn build` to build client
+- at root, run `flask run --port 3004` to start local server
 - visit the local server
+- scrape the official website to get the PDs, a task can be scheduled to get the data every month, refer to `scripts\scrape_task.sh`
 
 # Demo
-https://beroman.herokuapp.com/
+https://beroman.utticus.com/

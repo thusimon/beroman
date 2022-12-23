@@ -16,7 +16,7 @@ const PDChart = () => {
     }
     const current = svgRef.current as HTMLElement
     const svgWidth = window.innerWidth * 0.9;
-    const svgHeight = window.innerHeight * 0.8;
+    const svgHeight = window.innerHeight * 0.75;
     const margin = {
       top: 60,
       right: 10,
