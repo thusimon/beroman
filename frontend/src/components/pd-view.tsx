@@ -24,7 +24,7 @@ const PDView = () => {
       { 
         disclaimerToggle &&
         <div className='disclaimer-text'>
-          <p>Disclaimer: This tool is just for employment based US green card applicants' convenience, remembering the region, category and Priority Date on the device locally and visualizing the history data.</p>
+          <p>Disclaimer: This tool is just for employment based US green card applicants' convenience, keeps track of the region, category and Priority Date on the device locally and visualizes the history data.</p>
           <p>All the data are derived from the USCIS official website, if there is any data wrong/missing on this website or USCIS disallows distributing its ground truth elsewhere, this website is not responsible for these cases, and please refer to the USCIS official website</p>
         </div>
       }

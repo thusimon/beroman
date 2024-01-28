@@ -6,6 +6,8 @@ beroman monthly scrape the [official site](https://travel.state.gov/content/trav
 
 # Getting started
 ## Installation
+- python version 3.11.7
+- at root, create py env by `python -m venv .venv` and activate `.venv\Scripts\activate`
 - at root, run `pip3 install -r requirements.txt` to install python packages
 - go to `frontend` directory, run `yarn install` to install npm packages
 - create a `.env` file in the root directory, and put your mongodb service url
