@@ -1,0 +1,38 @@
+#about-component {
+  .about-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .author-content-modal {
+    height: 45vh;
+    top: 25vh;
+    .author-content-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      .author-content-header-close {
+        position: absolute;
+        right: 0.5rem;
+      }
+    }
+    .author-content-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      table {
+        border-collapse: collapse;
+        width: 80%;
+        text-align: left;
+        td {
+          border: 1px solid;
+          padding: 0 0.5rem;
+        }
+      }
+    }
+  }
+}

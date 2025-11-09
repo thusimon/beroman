@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PDFilter from './pd-filter';
 import PDChart from './pd-chart';
+import About from './about';
 import { ReactComponent as DisclaimerSVG } from '../assets/disclaimer.svg';
 
 import './pd-view.scss';
@@ -31,6 +32,7 @@ const PDView = () => {
     </div>
     <PDFilter />
     <PDChart />
+    <About />
   </div>
 }
 
